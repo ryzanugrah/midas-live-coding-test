@@ -1,74 +1,23 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import Home from './Home';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+import LoginPage from './Login';
+import HomePage from './Home';
 
-  const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!email.includes('@')) {
-      setError('Invalid email');
-      return;
-    } else if (!/^[a-zA-Z]+$/.test(password)) {
-      setError('Invalid password');
-      return;
-    }
-
-    const requestObject = {
-      email: email,
-      password: password,
-    };
-
-    axios
-      .post('https://reqres.in/api/login', requestObject)
-      .then((response) => {
-        console.log(response);
-        if (response.data.success) {
-          setError('');
-          navigate('/home', { name: response.data.name });
-        } else {
-          setError('Incorrect email or password');
-        }
-      })
-      .catch((error) => {
-        console.log('Error: ', error);
-        setError('Error Connecting');
-      });
-  };
-
+const App = () => {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/home" component={Home} />
-      </Routes>
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" onChange={handleEmailChange} />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={handlePasswordChange}
-        />
-        <button type="submit">Login</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <LoginPage />
+        </Route>
+        <Route path="/home">
+          <HomePage />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
-export default Login;
+export default App;

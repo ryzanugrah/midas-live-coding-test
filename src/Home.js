@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Home = ({ location }) => {
+const HomePage = () => {
   return (
-    <div>
-      <h1>Welcome {location.state.name}</h1>
+    <div className="HomePage">
+      <h1>Welcome!</h1>
+      <p>You have successfully logged in.</p>
     </div>
   );
-};
+}
 
-export default Home;
+export default HomePage;
